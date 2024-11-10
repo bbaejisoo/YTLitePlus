@@ -54,13 +54,13 @@ concurrency:
 jobs:
   build:
     name: Build YTLitePlus
-    runs-on: macos-latest
+    runs-on: macos-13
     permissions:
       contents: write
 
     steps:
       - name: Checkout Main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.1
         with:
           path: main
           ref: ${{ github.event.inputs.commit_id || github.ref }}
@@ -70,7 +70,7 @@ jobs:
         run: brew install ldid dpkg make
 
       - name: Download Theos
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.1
         with:
           repository: theos/theos
           ref: 3da31488281ecf4394d10302d2629607f4a1aa07
@@ -79,7 +79,7 @@ jobs:
 
       - name: iOS SDK Caching
         id: SDK
-        uses: actions/cache@v4
+        uses: actions/cache@v4.1.1
         env:
           cache-name: iOS-${{ inputs.sdk_version }}-SDK
         with:
@@ -100,7 +100,7 @@ jobs:
           THEOS: ${{ github.workspace }}/theos
 
       - name: Download Theos Jailed
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.1
         with:
           repository: qnblackcat/theos-jailed
           ref: master
@@ -188,7 +188,7 @@ jobs:
 
       - name: Upload Artifact
         if: ${{ inputs.upload_artifact }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: YTLitePlus_${{ env.YT_VERSION }}_${{ env.YTLITE_VERSION }}
           path: ${{ github.workspace }}/main/packages/${{ steps.build_package.outputs.package }}
